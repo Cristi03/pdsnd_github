@@ -144,7 +144,7 @@ def load_data(city, month, day):
 
     # filter the data according to the selected city filters
     if isinstance(city, list):
-        df = pd.concat(map(lambda city: pd.read_csv(CITY_DATA[city]), city),
+        df = pd.concat(map(lambda city_lambda: pd.read_csv(CITY_DATA[city_lambda]), city),
                        sort=True)
         # reorganize DataFrame columns after a city concat
         try:
@@ -165,8 +165,8 @@ def load_data(city, month, day):
 
     # filter the data according to month and weekday into two new DataFrames
     if isinstance(month, list):
-        df = pd.concat(map(lambda month: df[df['Month'] ==
-                                            (months.index(month) + 1)], month))
+        df = pd.concat(map(lambda month_lambda: df[df['Month'] ==
+                                                   (months.index(month_lambda) + 1)], month))
     else:
         if month == "":
             print("No Month selected")
@@ -401,8 +401,8 @@ def main_menu_options(city, df, mark_place):
 
 def main():
     while True:
-        city, month, day = get_filters()
-        df = load_data(city, month, day)
+        city, month_main, day_main = get_filters()
+        df = load_data(city, month_main, day_main)
 
         mark_place = 0
         main_menu_options(city, df, mark_place)
