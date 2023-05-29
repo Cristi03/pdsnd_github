@@ -17,6 +17,7 @@ bikeshare.py
 chicago.csv
 new_york_city.csv
 washington.csv
+The files with extension .csv are not pushed to the repository.  They are added to the .gitignore file.
 
 ### Credits
 https://www.udacity.com/
