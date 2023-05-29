@@ -4,10 +4,13 @@
 2023-05-29T10:38
 
 ### Project Title
-Bike Share
+Bike Share Project
 
 ### Description
 The project is mostly focusing in showing different information about bike sharing in 3 of the most big cities in USA.
+The project was done for the Udacity training.
+It is an interactive application that is asking the user for different filtering of the data that he can see.
+The user can restart the application from scratch.
 
 ### Files used
 bikeshare.py
