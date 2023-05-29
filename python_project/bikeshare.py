@@ -18,6 +18,11 @@ weekdays = ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
 CONFIRMATION_MESSAGE = "\nPlease confirm the option\'s you selected. \n\n City(ies): {}\n Month(s): {}\n Weekday(s): {}\n\n [" \
                        "Confirmation] -> Yes\n [Decline] -> No\n\n>"
 
+START_TIME = 'Start Time'
+START_STATION = 'Start Station'
+TRIP_DURATION = 'Trip Duration'
+END_STATION = 'End Station'
+BIRTH_YEAR = 'Birth Year'
 
 def get_user_options(prompt, options=('yes', 'no')):
     """Return a valid input from the user given an array of possible answers.
@@ -143,20 +148,20 @@ def load_data(city, month, day):
                        sort=True)
         # reorganize DataFrame columns after a city concat
         try:
-            df = df.reindex(columns=['Unnamed: 0', 'Start Time', 'End Time',
-                                     'Trip Duration', 'Start Station',
-                                     'End Station', 'User Type', 'Gender',
-                                     'Birth Year'])
+            df = df.reindex(columns=['Unnamed: 0', START_TIME, 'End Time',
+                                     TRIP_DURATION, START_STATION,
+                                     END_STATION, 'User Type', 'Gender',
+                                     BIRTH_YEAR])
         except:
             pass
     else:
         df = pd.read_csv(CITY_DATA[city])
 
     # create columns to display statistics
-    df['Start Time'] = pd.to_datetime(df['Start Time'])
-    df['Month'] = df['Start Time'].dt.month
-    df['Weekday'] = df['Start Time'].dt.day_name()
-    df['Start Hour'] = df['Start Time'].dt.hour
+    df[START_TIME] = pd.to_datetime(df[START_TIME])
+    df['Month'] = df[START_TIME].dt.month
+    df['Weekday'] = df[START_TIME].dt.day_name()
+    df['Start Hour'] = df[START_TIME].dt.hour
 
     # filter the data according to month and weekday into two new DataFrames
     if isinstance(month, list):
@@ -214,18 +219,18 @@ def station_stats(df):
     start_time = time.time()
 
     # display most commonly used start station
-    most_common_start_station = str(df['Start Station'].mode()[0])
+    most_common_start_station = str(df[START_STATION].mode()[0])
     print("The most common start station is: " +
           most_common_start_station)
 
     # display most commonly used end station
-    most_common_end_station = str(df['End Station'].mode()[0])
+    most_common_end_station = str(df[END_STATION].mode()[0])
     print("The most common start end is: " +
           most_common_end_station)
 
     # display most frequent combination of start station and end station trip
-    df['Start-End Combination'] = (df['Start Station'] + ' - ' +
-                                   df['End Station'])
+    df['Start-End Combination'] = (df[START_STATION] + ' - ' +
+                                   df[END_STATION])
     most_common_start_end_combination = str(df['Start-End Combination']
                                             .mode()[0])
     print("The most common start-end combination "
@@ -242,7 +247,7 @@ def trip_duration_stats(df):
     start_time = time.time()
 
     # display total travel time
-    total_travel_time_param = df['Trip Duration'].sum()
+    total_travel_time_param = df[TRIP_DURATION].sum()
     total_travel_time_param = (str(int(total_travel_time_param // 86400)) +
                                'd ' +
                                str(int((total_travel_time_param % 86400) // 3600)) +
@@ -255,7 +260,7 @@ def trip_duration_stats(df):
           total_travel_time_param + '.')
 
     # display mean travel time
-    mean_travel_time = df['Trip Duration'].mean()
+    mean_travel_time = df[TRIP_DURATION].mean()
     mean_travel_time = (str(int(mean_travel_time // 60)) + 'm ' +
                         str(int(mean_travel_time % 60)) + 's')
     print("The mean travel time is : " +
@@ -286,11 +291,11 @@ def user_stats(df, city):
 
         # Display earliest, most recent, and most common year of birth
     try:
-        earliest_birth_year = str(int(df['Birth Year'].min()))
+        earliest_birth_year = str(int(df[BIRTH_YEAR].min()))
         print("\nThe oldest person to ride one bike was born in: " + earliest_birth_year)
-        most_recent_birth_year = str(int(df['Birth Year'].max()))
+        most_recent_birth_year = str(int(df[BIRTH_YEAR].max()))
         print("The youngest person to ride one bike was born in: " + most_recent_birth_year)
-        most_common_birth_year = str(int(df['Birth Year'].mode()[0]))
+        most_common_birth_year = str(int(df[BIRTH_YEAR].mode()[0]))
         print("The most common birth year amongst riders is: " + most_common_birth_year)
     except:
         print("There is no data of birth year for {}. We're sorry!".format(city.title()))
@@ -354,15 +359,15 @@ def sort_menu(df, sort_df):
     elif asc_or_desc == 'd':
         asc_or_desc = False
     if sort_df == '1':
-        df = df.sort_values(['Start Time'], ascending=asc_or_desc)
+        df = df.sort_values([START_TIME], ascending=asc_or_desc)
     elif sort_df == '2':
         df = df.sort_values(['End Time'], ascending=asc_or_desc)
     elif sort_df == '3':
-        df = df.sort_values(['Trip Duration'], ascending=asc_or_desc)
+        df = df.sort_values([TRIP_DURATION], ascending=asc_or_desc)
     elif sort_df == '4':
-        df = df.sort_values(['Start Station'], ascending=asc_or_desc)
+        df = df.sort_values([START_STATION], ascending=asc_or_desc)
     elif sort_df == '5':
-        df = df.sort_values(['End Station'], ascending=asc_or_desc)
+        df = df.sort_values([END_STATION], ascending=asc_or_desc)
     elif sort_df == '':
         pass
     return df
