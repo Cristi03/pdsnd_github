@@ -4,14 +4,18 @@ import click as click
 
 TIME_DURATION_FOR_EXECUTION = "\nThis took %s seconds."
 
+"""Name of the files from where the data is read """
 CITY_DATA = {'chicago': 'chicago.csv',
              'new york': 'new_york_city.csv',
              'washington': 'washington.csv'}
 
+"""Filter options"""
 filter_period = ('month', 'day', 'both', 'none')
 
+"""The month's interval we hav data"""
 months = ('january', 'february', 'march', 'april', 'may', 'june')
 
+"""Week day's"""
 weekdays = ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
             'saturday')
 
